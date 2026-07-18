@@ -2,8 +2,8 @@
 
 Code accompanying the manuscript:
 
-**"Passive nanocarriers cannot exploit glomerular barrier permeability to reach
-podocytes in chronic kidney disease: a quantitative sieving analysis"**
+**"Glomerular barrier permeability and the limits of passive nanocarrier delivery
+to podocytes in chronic kidney disease: a quantitative sieving analysis"**
 
 Submitted to the *Journal of Controlled Release*, Virtual Special Issue "Advancing
 Drug Delivery Systems for Chronic and Autoimmune Diseases."

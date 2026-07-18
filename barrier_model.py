@@ -2,8 +2,8 @@
 Two-pore size-exclusion model of the glomerular filtration barrier.
 
 Reproduces the quantitative claims in:
-  "Passive nanocarriers cannot exploit glomerular barrier permeability to reach
-  podocytes in chronic kidney disease: a quantitative sieving analysis"
+  "Glomerular barrier permeability and the limits of passive nanocarrier delivery
+  to podocytes in chronic kidney disease: a quantitative sieving analysis"
   (submitted to Journal of Controlled Release, VSI: Advancing Drug Delivery Systems
   for Chronic and Autoimmune Diseases)
 

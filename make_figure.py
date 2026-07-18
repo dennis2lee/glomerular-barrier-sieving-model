@@ -1,8 +1,8 @@
 """
 Generates Figure 1 for the manuscript from this repository's barrier_model.py values.
 
-  "Passive nanocarriers cannot exploit glomerular barrier permeability to reach
-  podocytes in chronic kidney disease: a quantitative sieving analysis"
+  "Glomerular barrier permeability and the limits of passive nanocarrier delivery
+  to podocytes in chronic kidney disease: a quantitative sieving analysis"
 """
 from __future__ import annotations
 

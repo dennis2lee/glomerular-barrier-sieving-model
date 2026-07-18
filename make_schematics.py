@@ -3,8 +3,8 @@ Generates Figure 2 and Figure 3 for the manuscript: schematic diagrams of the
 glomerular barrier's two distinct routes, and of the AAV capsid uptake mechanism
 these routes imply.
 
-  "Passive nanocarriers cannot exploit glomerular barrier permeability to reach
-  podocytes in chronic kidney disease: a quantitative sieving analysis"
+  "Glomerular barrier permeability and the limits of passive nanocarrier delivery
+  to podocytes in chronic kidney disease: a quantitative sieving analysis"
 
 These are anatomical/mechanistic schematics, not to scale, illustrating the
 argument made quantitatively in sections 3.1-3.3 and barrier_model.py. Layer
