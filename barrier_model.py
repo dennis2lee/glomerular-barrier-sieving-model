@@ -7,10 +7,12 @@ Reproduces the quantitative claims in:
   (submitted to Journal of Controlled Release, VSI: Advancing Drug Delivery Systems
   for Chronic and Autoimmune Diseases)
 
-Data sources (see manuscript Methods 2.1 for full citations):
+Data sources (see manuscript Methods 2.1-2.4 for full citations):
   Scandling & Myers 1992, Kidney Int 41:840-846 (PMID 1381005)
   Tencer et al. 1998, Kidney Int 53:709-715 (PMID 9507218)
   Blouch et al. 1997, Am J Physiol 273:F430-437 (PMID 9321916)
+  Yamasaki et al. 1990, Acta Med Okayama 44:333-335 (PMID 2075832) - acellular GBM EM
+  Moreau et al. 2023, PNAS 120(44):e2300095120 (PMID 37874856) - RBC splenic filtration
 
 These three independent human and rat sieving studies converge on a bimodal pore-size
 distribution: a dominant restrictive population near 5.6 nm radius, and a sparse
@@ -46,6 +48,29 @@ CARRIERS = [
     ("AAV capsid", 12.5),
     ("albumin", 3.6),
 ]
+
+# Manuscript section 3.1 states the payload-capable carrier range spans 50 to 150 nm
+# radius* and is "5 to 15 times oversized" versus the 11 nm shunt-pore ceiling.
+# (*diameter in common carrier-size usage; treated here as the same ladder endpoint
+# used for the margin comparison, consistent with the 50 nm entry in CARRIERS above.)
+CARRIER_RANGE_NM = (50.0, 150.0)
+
+# Limitations (section 4) EM-fixation-artifact caveat: acellular basement-membrane
+# EM studies [11,12] report mesh pores from about 3 nm (narrowest TEM estimate) to
+# about 15 nm (widest, disease-widened value). The caveat only matters if fixation
+# shrinkage were large enough to bring the true pore size close to the 50 nm carrier
+# threshold; this constant reproduces the "three to sixteen times" arithmetic used
+# in the manuscript to bound how large that shrinkage artifact would have to be.
+EM_REPORTED_RANGE_NM = (3.0, 15.0)
+EM_CRITICAL_THRESHOLD_NM = 50.0
+
+# Section 3.4 deformability comparison: Moreau et al. 2023 (PNAS 120(44):e2300095120,
+# PMID 37874856) report healthy ~8 um erythrocytes passing through splenic
+# interendothelial slits as narrow as 0.28 um via reversible spectrin-cytoskeleton
+# unfolding, not through a comparable structural mechanism available to a rigid or
+# semi-rigid nanocarrier.
+RBC_DIAMETER_UM = 8.0
+SPLENIC_SLIT_WIDTH_UM = 0.28
 
 
 def verdict(radius_nm: float) -> str:
@@ -101,6 +126,26 @@ def main() -> None:
     print(f"  shunt-pore leakage; see the manuscript (section 3.3) for the")
     print(f"  receptor-mediated, fenestra-plus-basement-membrane mechanism this")
     print(f"  model motivates instead.")
+
+    lo, hi = CARRIER_RANGE_NM
+    lo_margin, hi_margin = lo / R_SHUNT, hi / R_SHUNT
+    print(f"\nPayload-capable carrier range {lo:g} to {hi:g} nm exceeds the shunt-pore")
+    print(f"  ceiling by {lo_margin:.1f}x to {hi_margin:.1f}x (manuscript: 'oversized by 5 to 15 times').")
+
+    em_lo, em_hi = EM_REPORTED_RANGE_NM
+    em_ratio_lo, em_ratio_hi = EM_CRITICAL_THRESHOLD_NM / em_hi, EM_CRITICAL_THRESHOLD_NM / em_lo
+    print(f"\nEM-fixation-artifact bound (Limitations): reported acellular basement-")
+    print(f"  membrane mesh pores span {em_lo:g} to {em_hi:g} nm. Fixation shrinkage would have to")
+    print(f"  inflate the true pore size {em_ratio_lo:.1f}x to {em_ratio_hi:.1f}x to reach the {EM_CRITICAL_THRESHOLD_NM:g} nm")
+    print(f"  carrier threshold (manuscript: 'three to sixteen times').")
+
+    rbc_margin = RBC_DIAMETER_UM / SPLENIC_SLIT_WIDTH_UM
+    print(f"\nDeformability comparison (section 3.4): an erythrocyte ({RBC_DIAMETER_UM:g} um) passes a")
+    print(f"  splenic interendothelial slit ({SPLENIC_SLIT_WIDTH_UM:g} um), a {rbc_margin:.0f}x size mismatch at")
+    print(f"  least as large as the {lo_margin:.0f}x to {hi_margin:.0f}x carrier oversize modeled above. This")
+    print(f"  rescue depends on a reversible spectrin-cytoskeleton unfolding mechanism")
+    print(f"  with no counterpart in a rigid MOF or payload-carrying LNP, so the")
+    print(f"  argument against a deformability rescue rests on missing mechanism, not scale.")
 
 
 if __name__ == "__main__":

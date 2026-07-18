@@ -28,7 +28,16 @@ disease.
 
 - `barrier_model.py` — the size-exclusion model. Running it prints the pore
   parameters, the carrier ladder, and the computed exclusion verdict at each disease
-  stage, with no result asserted in advance.
+  stage, with no result asserted in advance. It also reproduces every other
+  quantitative claim stated in the manuscript text:
+  - the 50 to 150 nm carrier range's 4.5x to 13.6x margin against the shunt-pore
+    ceiling (manuscript: "oversized by 5 to 15 times"),
+  - the Limitations section's electron-microscopy fixation-artifact bound, i.e. how
+    much fixation shrinkage would have to inflate reported basement-membrane pore
+    sizes (3 to 15 nm) to reach the 50 nm carrier threshold (manuscript: "three to
+    sixteen times"),
+  - the section 3.4 deformability comparison between the erythrocyte/splenic-slit
+    size mismatch and the carrier oversize margin above.
 - `make_figure.py` — generates Figure 1 of the manuscript directly from the values in
   `barrier_model.py`, so the figure and the printed verdict cannot silently drift
   apart.
@@ -56,6 +65,11 @@ studies cited in the manuscript's Methods section:
 - Blouch K, Deen WM, Fauvel JP, Bialek J, Derby G, Myers BD. Molecular configuration
   and glomerular size selectivity in healthy and nephrotic humans. *Am J Physiol*
   1997;273(3 Pt 2):F430-437. PMID 9321916.
+- Yamasaki Y, Makino H, Hironaka K, Hayashi Y, Shikata K, Ota Z. Three-dimensional
+  architecture of rat glomerular basement membrane by ultra-high resolution scanning
+  electron microscopy. *Acta Med Okayama* 1990;44(6):333-335. PMID 2075832.
+- Moreau A, Yaya F, Lu H, et al. Physical mechanisms of red blood cell splenic
+  filtration. *Proc Natl Acad Sci U S A* 2023;120(44):e2300095120. PMID 37874856.
 
 Full citations for the manuscript's blood-side barrier anatomy, electron-microscopy,
 and receptor-mechanism claims are in the manuscript itself.
