@@ -41,15 +41,20 @@ disease.
 - `make_figure.py` — generates Figure 1 of the manuscript directly from the values in
   `barrier_model.py`, so the figure and the printed verdict cannot silently drift
   apart.
-- `figures/` — output directory for the generated figure.
+- `make_schematics.py` — generates Figure 2 (the two barrier routes, urine-side vs.
+  blood-to-podocyte) and Figure 3 (passive size-based leakage vs. receptor-mediated
+  AAV uptake), the anatomical/mechanistic schematics referenced in the manuscript's
+  Results section 3.3.
+- `figures/` — output directory for the generated figures.
 - `requirements.txt` — Python dependencies.
 
 ## Running it
 
 ```bash
 pip install -r requirements.txt
-python3 barrier_model.py    # prints the model and its verdict
-python3 make_figure.py      # writes figures/fig1_jcr_barrier_exclusion.png
+python3 barrier_model.py     # prints the model and its verdict
+python3 make_figure.py       # writes figures/fig1_jcr_barrier_exclusion.png
+python3 make_schematics.py   # writes figures/fig2_jcr_barrier_anatomy.png and fig3_jcr_aav_mechanism.png
 ```
 
 ## Data sources
