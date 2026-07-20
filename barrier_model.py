@@ -32,6 +32,16 @@ import numpy as np
 R_RESTRICTIVE = 5.6   # dominant pore population; disease-invariant in size
 R_SHUNT = 11.0        # sparse pathological pore population; disease-invariant in size
 
+# --- blood-side (GBM-only) ceiling, radius nm -------------------------------------
+# Section 2.3 / 3.3: the urine-side shunt ceiling reflects passage across all three
+# barrier layers (fenestra, GBM, slit diaphragm); a therapeutic reaching the podocyte
+# surface only needs to cross the first two. Hironaka et al. 1996 (acellular EM,
+# Heymann nephritis model, PMID 8691335) directly measured GBM mesh pore DIAMETER
+# widening from ~9 nm (healthy) to ~15 nm (diseased). Halved to radius, on the same
+# basis as every other size in this model, these become the blood-side ceiling.
+R_GBM_HEALTHY = 9.0 / 2    # 4.5 nm radius
+R_GBM_DISEASED = 15.0 / 2  # 7.5 nm radius; used below as the blood-side ceiling
+
 # --- disease stages: large:small pore number ratio, from the source studies ------
 # (Tencer 1998: ratio rises ~170-fold from healthy to nephrotic-range disease)
 STAGES = [
@@ -84,6 +94,13 @@ def verdict(radius_nm: float) -> str:
     return "freely passing"
 
 
+def blood_side_verdict(radius_nm: float) -> str:
+    """Same logic as verdict(), applied to the shorter blood-to-podocyte route,
+    which only needs to clear the fenestra and the GBM mesh, not the full
+    urine-side barrier. Uses the diseased (more permissive) GBM ceiling."""
+    return "excluded (size)" if radius_nm > R_GBM_DISEASED else "passes GBM"
+
+
 def main() -> None:
     print("=" * 78)
     print("Glomerular barrier two-pore size-exclusion model")
@@ -94,10 +111,10 @@ def main() -> None:
     print(f"shunt pore density rises {STAGES[0][1]:.1e} -> {STAGES[-1][1]:.1e} "
           f"({density_fold:.0f}-fold) from healthy to nephrotic-range disease\n")
 
-    print(f"{'carrier':<32}{'radius (nm)':>12}{'vs 11 nm ceiling':>20}")
-    print("-" * 78)
+    print(f"{'carrier':<32}{'radius (nm)':>12}{'urine-side (11.0 nm)':>24}{'blood-side (7.5 nm)':>22}")
+    print("-" * 100)
     for name, r in CARRIERS:
-        print(f"{name:<32}{r:>12.1f}{verdict(r):>20}")
+        print(f"{name:<32}{r:>12.1f}{verdict(r):>24}{blood_side_verdict(r):>22}")
 
     print(f"\n{'disease stage':<24}" +
           "".join(f"{name.split('(')[0].strip()[:14]:>16}" for name, _ in CARRIERS))
@@ -131,6 +148,16 @@ def main() -> None:
     lo_margin, hi_margin = lo / R_SHUNT, hi / R_SHUNT
     print(f"\nPayload-capable carrier range {lo:g} to {hi:g} nm exceeds the shunt-pore")
     print(f"  ceiling by {lo_margin:.1f}x to {hi_margin:.1f}x (manuscript: 'oversized by 5 to 15 times').")
+
+    blood_lo_margin, blood_hi_margin = lo / R_GBM_DISEASED, hi / R_GBM_DISEASED
+    aav_blood_margin = aav_radius / R_GBM_DISEASED
+    print(f"\nBlood-side (GBM-only) ceiling ({R_GBM_DISEASED:g} nm, from Hironaka 1996 diseased")
+    print(f"  pore diameter halved to radius) is stricter than the urine-side shunt ceiling")
+    print(f"  ({R_SHUNT:g} nm), consistent with the manuscript's 'at least as restrictive' claim.")
+    print(f"  Under this stricter ceiling: payload-capable range {lo:g}-{hi:g} nm is")
+    print(f"  {blood_lo_margin:.1f}x to {blood_hi_margin:.1f}x oversized (vs {lo_margin:.1f}x to {hi_margin:.1f}x under the urine-side")
+    print(f"  ceiling), and AAV capsid ({aav_radius:g} nm) is {aav_blood_margin:.2f}x oversized (vs {aav_margin:.2f}x under")
+    print(f"  the urine-side ceiling) -- an even weaker case for passive GBM crossing alone.")
 
     em_lo, em_hi = EM_REPORTED_RANGE_NM
     em_ratio_lo, em_ratio_hi = EM_CRITICAL_THRESHOLD_NM / em_hi, EM_CRITICAL_THRESHOLD_NM / em_lo

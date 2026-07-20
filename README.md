@@ -30,21 +30,25 @@ disease.
   parameters, the carrier ladder, and the computed exclusion verdict at each disease
   stage, with no result asserted in advance. It also reproduces every other
   quantitative claim stated in the manuscript text:
-  - the 50 to 150 nm carrier range's 4.5x to 13.6x margin against the shunt-pore
-    ceiling (manuscript: "oversized by 5 to 15 times"),
+  - the 50 to 150 nm carrier range's 4.5x to 13.6x margin against the urine-side
+    shunt-pore ceiling (manuscript: "oversized by 5 to 15 times"),
+  - the same carrier range's 6.7x to 20.0x margin against a second, stricter
+    blood-side ceiling derived from the diseased basement-membrane pore size
+    (Figure 2), confirming that using the urine-side ceiling throughout the
+    manuscript is the conservative choice,
   - the Limitations section's electron-microscopy fixation-artifact bound, i.e. how
     much fixation shrinkage would have to inflate reported basement-membrane pore
     sizes (3 to 15 nm) to reach the 50 nm carrier threshold (manuscript: "three to
     sixteen times"),
   - the section 3.4 deformability comparison between the erythrocyte/splenic-slit
-    size mismatch and the carrier oversize margin above.
-- `make_figure.py` — generates Figure 1 of the manuscript directly from the values in
-  `barrier_model.py`, so the figure and the printed verdict cannot silently drift
-  apart.
-- `make_schematics.py` — generates Figure 2 (the two barrier routes, urine-side vs.
-  blood-to-podocyte) and Figure 3 (passive size-based leakage vs. receptor-mediated
-  AAV uptake), the anatomical/mechanistic schematics referenced in the manuscript's
-  Results section 3.3.
+    size mismatch and the carrier oversize margin (Figure 3).
+- `make_figure.py` — generates Figure 1 directly from the values in
+  `barrier_model.py`.
+- `make_figure2.py` — generates Figure 2 (each carrier's margin against both the
+  urine-side and blood-side ceilings) and Figure 3 (the carrier oversize range vs.
+  the erythrocyte/splenic-slit deformability precedent), also computed directly
+  from `barrier_model.py`. Every panel in every figure in the manuscript is a
+  direct plot of a value this code computes, not an illustration.
 - `figures/` — output directory for the generated figures.
 - `requirements.txt` — Python dependencies.
 
@@ -52,9 +56,9 @@ disease.
 
 ```bash
 pip install -r requirements.txt
-python3 barrier_model.py     # prints the model and its verdict
-python3 make_figure.py       # writes figures/fig1_jcr_barrier_exclusion.png
-python3 make_schematics.py   # writes figures/fig2_jcr_barrier_anatomy.png and fig3_jcr_aav_mechanism.png
+python3 barrier_model.py    # prints the model and its verdict
+python3 make_figure.py      # writes figures/fig1_jcr_barrier_exclusion.png
+python3 make_figure2.py     # writes figures/fig2_jcr_two_ceilings.png and fig3_jcr_bounding_margins.png
 ```
 
 ## Data sources
