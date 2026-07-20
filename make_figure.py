@@ -26,7 +26,7 @@ plt.rcParams.update({
     "axes.spines.right": False,
     "axes.titlesize": 9,
     "axes.titleweight": "bold",
-    "figure.dpi": 300,
+    "figure.dpi": 500,
 })
 C_BAD = "#c0392b"
 C_BLUE = "#2471a3"
@@ -102,8 +102,6 @@ def build():
     h2, l2 = ax2b.get_legend_handles_labels()
     ax2.legend(h1 + h2, l1 + l2, frameon=False, fontsize=6.8, loc="upper left")
 
-    fig.suptitle("Figure 1. Passive nanocarriers remain size excluded at every disease stage",
-                 fontsize=10.5, fontweight="bold", y=1.02)
     fig.tight_layout()
     p = os.path.join(OUT, "fig1_jcr_barrier_exclusion.png")
     fig.savefig(p, bbox_inches="tight")

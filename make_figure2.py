@@ -41,7 +41,7 @@ plt.rcParams.update({
     "axes.spines.right": False,
     "axes.titlesize": 9,
     "axes.titleweight": "bold",
-    "figure.dpi": 300,
+    "figure.dpi": 500,
 })
 C_URINE = "#2471a3"
 C_BLOOD = "#c0392b"
@@ -63,19 +63,17 @@ def build_fig2():
     ax.axhline(1.0, color="black", lw=1.0, ls="--")
     ax.text(len(labels) - 0.5, 1.05, "ceiling (margin = 1)", fontsize=7, color="black", ha="right")
 
-    for xi, (u, b) in enumerate(zip(urine_margin, blood_margin)):
-        ax.text(xi - w / 2, u + 0.3, f"{u:.2f}x", ha="center", fontsize=7, color=C_URINE)
-        ax.text(xi + w / 2, b + 0.3, f"{b:.2f}x", ha="center", fontsize=7, color=C_BLOOD)
+    # Exact margin values are given in Table 2 rather than repeated here, so this
+    # panel and the table do not duplicate the same numbers (JCR guide: "ensure
+    # that any data presented in tables is not duplicating results described
+    # elsewhere in the article").
 
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize=8)
     ax.set_ylabel("margin (carrier radius / ceiling radius)")
-    ax.set_title("Every carrier is more oversized under the stricter,\ndirectly relevant blood-side ceiling than under the urine-side ceiling")
     ax.legend(frameon=False, fontsize=7.5, loc="upper left")
     ax.set_ylim(0, max(blood_margin) * 1.35)
 
-    fig.suptitle("Figure 2. Computed margin against both barrier ceilings, by carrier",
-                 fontsize=10.5, fontweight="bold", y=1.03)
     fig.tight_layout()
     p = os.path.join(OUT, "fig2_jcr_two_ceilings.png")
     fig.savefig(p, bbox_inches="tight")
@@ -109,11 +107,7 @@ def build_fig3():
     ax.set_xlabel("fold-margin (linear scale)")
     ax.set_xlim(0, 32)
     ax.set_ylim(-0.6, len(rows) - 0.4)
-    ax.set_title("The erythrocyte's known deformability precedent is at least as large\n"
-                 "as the carrier oversize gap it would need to explain away")
 
-    fig.suptitle("Figure 3. Computed bounding-argument margins (section 3.4)",
-                 fontsize=10.5, fontweight="bold", y=1.04)
     fig.tight_layout()
     p = os.path.join(OUT, "fig3_jcr_bounding_margins.png")
     fig.savefig(p, bbox_inches="tight")
